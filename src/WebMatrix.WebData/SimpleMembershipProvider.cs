@@ -303,7 +303,7 @@ namespace WebMatrix.WebData
 
         internal static int GetUserId(IDatabase db, string userTableName, string userNameColumn, string userIdColumn, string userName)
         {
-            var result = db.QueryValue(@"SELECT " + userIdColumn + " FROM " + userTableName + " WHERE (UPPER(" + userNameColumn + ") = @0)", userName.ToUpperInvariant());
+            var result = db.QueryValue(@"SELECT " + userIdColumn + " FROM " + userTableName + " WHERE (" + userNameColumn + " = @0)", userName.ToUpperInvariant());
             if (result != null)
             {
                 return (int)result;
@@ -1082,7 +1082,7 @@ namespace WebMatrix.WebData
                 else
                 {
                     // account already exist. update it
-                    int insert = db.Execute(@"UPDATE [" + OAuthMembershipTableName + "] SET UserId = @2 WHERE UPPER(Provider)=@0 AND UPPER(ProviderUserId)=@1", provider, providerUserId, userId);
+                    int insert = db.Execute(@"UPDATE [" + OAuthMembershipTableName + "] SET UserId = @2 WHERE Provider=@0 AND ProviderUserId=@1", provider, providerUserId, userId);
                     if (insert != 1)
                     {
                         throw new MembershipCreateUserException(MembershipCreateStatus.ProviderError);
